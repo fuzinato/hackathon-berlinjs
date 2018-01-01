@@ -30,25 +30,15 @@ type alias Coordinates =
 
 
 type alias Meetup =
-    { day : String
-    , description : String
-    , id : String
-    , location : String
-    , name : String
-    , time : String
-    , coordinates : Maybe Coordinates
-    , nextMeetup : Maybe String
-    , twitter : Maybe String
-    , url : Maybe String
-    }
+    String
 
 
 type Meetups
-    = List Meetup
+    = List String
 
 
 type alias Model =
-    { data : Meetups
+    { meetups : List String
     , url : String
     }
 
@@ -59,7 +49,7 @@ type alias Model =
 
 type Msg
     = Load
-    | NewData (Result Http.Error Meetups)
+    | NewData (Result Http.Error (List String))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -106,21 +96,25 @@ initMeetups =
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model initMeetups "url", Cmd.none )
+    ( Model [] "url", Cmd.none )
 
 
 
 -- HTTP
 
 
-getMetadata : Http.Request Meetups
+getMetadata : Http.Request (List String)
 getMetadata =
     Http.get "https://example.com/books/war-and-peace/metadata" decodeMetadata
 
 
-decodeMetadata : Json.Decoder List Meetup
+decodeMetadata : Json.Decoder (List String)
 decodeMetadata =
-    Json.at [ "data" ] Json.list
+    Json.at [ "data" ] (Json.list Json.string)
+
+
+
+-- Json.at [ "data" ] (Json.list Meetup)
 
 
 loadMeetupData : String -> Cmd Msg
