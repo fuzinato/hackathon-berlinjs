@@ -2,7 +2,11 @@ module Main exposing (Model, Msg, init, subscriptions, update, view)
 
 import Html exposing (..)
 import Html.Events exposing (onClick)
-import Random exposing (generate, int)
+import Http exposing (..)
+import Json.Decode as Json
+
+
+-- MAIN
 
 
 main : Program Never Model Msg
@@ -19,8 +23,33 @@ main =
 -- MODEL
 
 
+type alias Coordinates =
+    { latitude : String
+    , longitude : String
+    }
+
+
+type alias Meetup =
+    { day : String
+    , description : String
+    , id : String
+    , location : String
+    , name : String
+    , time : String
+    , coordinates : Maybe Coordinates
+    , nextMeetup : Maybe String
+    , twitter : Maybe String
+    , url : Maybe String
+    }
+
+
+type Meetups
+    = List Meetup
+
+
 type alias Model =
-    { dieFace : Int
+    { data : Meetups
+    , url : String
     }
 
 
@@ -29,19 +58,21 @@ type alias Model =
 
 
 type Msg
-    = Roll
-    | NewFace Int
+    = Load
+    | NewData (Result Http.Error Meetups)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Roll ->
-            -- Here comes the roll functionality
-            ( model, Random.generate NewFace (Random.int 1 6) )
+        Load ->
+            ( model, loadMeetupData model.url )
 
-        NewFace newInt ->
-            ( { model | dieFace = newInt }, Cmd.none )
+        NewData (Ok newUrl) ->
+            ( model, Cmd.none )
+
+        NewData (Err _) ->
+            ( model, Cmd.none )
 
 
 
@@ -51,8 +82,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ h1 [] [ text (toString model.dieFace) ]
-        , button [ onClick Roll ] [ text "Roll" ]
+        [ button [ onClick Load ] [ text "Load" ]
         ]
 
 
@@ -69,6 +99,30 @@ subscriptions model =
 -- INIT
 
 
+initMeetups : Meetups
+initMeetups =
+    List ""
+
+
 init : ( Model, Cmd Msg )
 init =
-    ( Model 1, Cmd.none )
+    ( Model initMeetups "url", Cmd.none )
+
+
+
+-- HTTP
+
+
+getMetadata : Http.Request Meetups
+getMetadata =
+    Http.get "https://example.com/books/war-and-peace/metadata" decodeMetadata
+
+
+decodeMetadata : Json.Decoder List Meetup
+decodeMetadata =
+    Json.at [ "data" ] Json.list
+
+
+loadMeetupData : String -> Cmd Msg
+loadMeetupData url =
+    Http.send NewData getMetadata
