@@ -1,0 +1,16 @@
+{
+  "name": "hackathon-berlinjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "elm-make src/Main.elm --output Main.js",  
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Dario Fuzinato",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.14.7"
+  }
+}
