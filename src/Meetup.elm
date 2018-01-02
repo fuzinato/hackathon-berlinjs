@@ -1,4 +1,4 @@
-module Meetup exposing (Meetup, meetupDecoder, renderMeetup)
+module Meetup exposing (Model, modelDecoder, renderMeetup)
 
 import Html exposing (Html, div, span, text)
 import Html.Attributes exposing (class)
@@ -13,7 +13,7 @@ type alias Coordinates =
     { latitude : String, longitude : String }
 
 
-type alias Meetup =
+type alias Model =
     { day : String
     , description : String
     , id : String
@@ -38,9 +38,9 @@ coordinatesDecoder =
         |: field "longitude" string
 
 
-meetupDecoder : Decoder Meetup
-meetupDecoder =
-    succeed Meetup
+modelDecoder : Decoder Model
+modelDecoder =
+    succeed Model
         |: field "day" string
         |: field "description" string
         |: field "id" string
@@ -51,6 +51,10 @@ meetupDecoder =
         |: optionalField "nextMeetup" string
         |: optionalField "twitter" string
         |: optionalField "url" string
+
+
+
+-- DATA PARSERS
 
 
 toStr : a -> String
@@ -85,10 +89,18 @@ parseCoords ma =
             Coordinates "" ""
 
 
-renderMeetup : Meetup -> Html msg
+
+-- VIEW
+
+
+renderMeetup : Model -> Html msg
 renderMeetup model =
     div [ class "meetup" ]
         [ div [] [ text model.name ]
-        , div [] [ text (getMaybe model.twitter) ]
+        , div [] [ text model.location ]
         , div [] [ text (parseCoords model.coordinates).latitude ]
+        , div [] [ text (parseCoords model.coordinates).longitude ]
+        , div [] [ text model.description ]
+        , div [] [ text model.time ]
+        , div [] [ text (getMaybe model.twitter) ]
         ]

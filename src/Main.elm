@@ -1,10 +1,11 @@
 module Main exposing (Model, Msg, init, update, view)
 
 import Html exposing (..)
+import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Http exposing (..)
 import Json.Decode as Json exposing (..)
-import Meetup exposing (Meetup, meetupDecoder, renderMeetup)
+import Meetup exposing (..)
 
 
 -- MAIN
@@ -35,7 +36,7 @@ init =
 
 
 type alias Model =
-    { meetups : List Meetup
+    { meetups : List Meetup.Model
     , url : String
     }
 
@@ -46,7 +47,7 @@ type alias Model =
 
 type Msg
     = Load
-    | NewData (Result Http.Error (List Meetup))
+    | NewData (Result Http.Error (List Meetup.Model))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -63,6 +64,28 @@ update msg model =
 
 
 
+-- STYLES
+-- TODO Delete this in prod
+
+
+stylesheet =
+    let
+        tag =
+            "link"
+
+        attrs =
+            [ attribute "rel" "stylesheet"
+            , attribute "property" "stylesheet"
+            , attribute "href" "//localhost:8000/styles.css"
+            ]
+
+        children =
+            []
+    in
+    node tag attrs children
+
+
+
 -- VIEW
 
 
@@ -71,6 +94,7 @@ view model =
     div []
         [ button [ onClick Load ] [ text "Load" ]
         , div [] (List.map renderMeetup model.meetups)
+        , div [ id "outer" ] [ stylesheet ] -- TODO Delete this in prod
         ]
 
 
@@ -87,9 +111,9 @@ subscriptions model =
 -- HTTP
 
 
-decodeMetadata : Json.Decoder (List Meetup)
+decodeMetadata : Json.Decoder (List Meetup.Model)
 decodeMetadata =
-    Json.at [ "data" ] (Json.list meetupDecoder)
+    Json.at [ "data" ] (Json.list Meetup.modelDecoder)
 
 
 loadMeetupData : String -> Cmd Msg
