@@ -3,8 +3,7 @@ module Main exposing (Model, Msg, init, subscriptions, update, view)
 import Html exposing (..)
 import Html.Events exposing (onClick)
 import Http exposing (..)
-import Json.Decode as Json exposing (..)
-import Json.Decode.Extra as Extra exposing ((|:), optionalField)
+import Json.Decode as Json exposing (Decoder, field, maybe, string)
 
 
 -- MAIN
@@ -26,11 +25,10 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model [] "http://localhost:8000/data.json", Cmd.none )
+    ( Model [] "http://berlin-meetup.glitch.me/meetup", Cmd.none )
 
 
 
--- ( Model [] "http://berlin-meetup.glitch.me/meetup", Cmd.none )
 -- MODEL
 
 
@@ -64,26 +62,26 @@ type alias Model =
 -- DECODERS
 
 
-coordinatesDecoder : Decoder Coordinates
+coordinatesDecoder : Decoder -> Coordinates
 coordinatesDecoder =
-    succeed Coordinates
-        |: field "latitude" string
-        |: field "longitude" string
+    Json.map2 Coordinates
+        (field "latitude" string)
+        (field "longitude" string)
 
 
 meetupDecoder : Decoder Meetup
 meetupDecoder =
-    succeed Meetup
-        |: field "day" string
-        |: field "description" string
-        |: field "id" string
-        |: field "location" string
-        |: field "name" string
-        |: field "time" string
-        |: optionalField "coordinates" coordinatesDecoder
-        |: optionalField "nextMeetup" string
-        |: optionalField "twitter" string
-        |: optionalField "url" string
+    Json.map Meetup
+        (field "day" string)
+        (field "description" string)
+        (field "id" string)
+        (field "location" string)
+        (field "name" string)
+        (field "time" string)
+        (maybe (field "coordinates" coordinatesDecoder))
+        (maybe (field "nextMeetup" string))
+        (maybe (field "twitter" string))
+        (maybe (field "url" string))
 
 
 
@@ -101,8 +99,8 @@ update msg model =
         Load ->
             ( model, loadMeetupData model.url )
 
-        NewData (Ok newmeetups) ->
-            ( Model newmeetups model.url, Cmd.none )
+        NewData (Ok newUrl) ->
+            ( model, Cmd.none )
 
         NewData (Err _) ->
             ( model, Cmd.none )
@@ -115,10 +113,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ button [ onClick Load ]
-            [ text "Load" ]
-        , text
-            (toString model.meetups)
+        [ button [ onClick Load ] [ text "Load" ]
         ]
 
 
@@ -138,6 +133,10 @@ subscriptions model =
 decodeMetadata : Json.Decoder (List Meetup)
 decodeMetadata =
     Json.at [ "data" ] (Json.list meetupDecoder)
+
+
+
+-- Json.at [ "data" ] (Json.list Meetup)
 
 
 loadMeetupData : String -> Cmd Msg
