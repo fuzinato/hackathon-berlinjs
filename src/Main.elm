@@ -1,10 +1,10 @@
-module Main exposing (Model, Msg, init, subscriptions, update, view)
+module Main exposing (Model, Msg, init, update, view)
 
 import Html exposing (..)
 import Html.Events exposing (onClick)
 import Http exposing (..)
 import Json.Decode as Json exposing (..)
-import Json.Decode.Extra as Extra exposing ((|:), optionalField)
+import Meetup exposing (Meetup, meetupDecoder, renderMeetup)
 
 
 -- MAIN
@@ -34,56 +34,10 @@ init =
 -- MODEL
 
 
-type alias Coordinates =
-    { latitude : String
-    , longitude : String
-    }
-
-
-type alias Meetup =
-    { day : String
-    , description : String
-    , id : String
-    , location : String
-    , name : String
-    , time : String
-    , coordinates : Maybe Coordinates
-    , nextMeetup : Maybe String
-    , twitter : Maybe String
-    , url : Maybe String
-    }
-
-
 type alias Model =
     { meetups : List Meetup
     , url : String
     }
-
-
-
--- DECODERS
-
-
-coordinatesDecoder : Decoder Coordinates
-coordinatesDecoder =
-    succeed Coordinates
-        |: field "latitude" string
-        |: field "longitude" string
-
-
-meetupDecoder : Decoder Meetup
-meetupDecoder =
-    succeed Meetup
-        |: field "day" string
-        |: field "description" string
-        |: field "id" string
-        |: field "location" string
-        |: field "name" string
-        |: field "time" string
-        |: optionalField "coordinates" coordinatesDecoder
-        |: optionalField "nextMeetup" string
-        |: optionalField "twitter" string
-        |: optionalField "url" string
 
 
 
@@ -115,10 +69,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ button [ onClick Load ]
-            [ text "Load" ]
-        , text
-            (toString model.meetups)
+        [ button [ onClick Load ] [ text "Load" ]
+        , div [] (List.map renderMeetup model.meetups)
         ]
 
 

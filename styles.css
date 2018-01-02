@@ -1,3 +1,8 @@
 body {
   background-color: #f00;
 }
+
+.meetup {
+  border: 1px solid rgb(240, 248, 250);
+  background-color: rgb(215, 230, 236);
+}
