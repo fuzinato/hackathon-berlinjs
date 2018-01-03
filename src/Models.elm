@@ -29,8 +29,7 @@ type alias Meetup =
     , location : String
     , name : String
     , time : String
-
-    -- , coordinates : Maybe Coordinates
+    , coordinates : Maybe Coordinates
     , nextMeetup : Maybe String
     , twitter : Maybe String
     , url : Maybe String

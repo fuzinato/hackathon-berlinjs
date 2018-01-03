@@ -2,7 +2,7 @@ module Meetups.List exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (class)
-import Models exposing (Meetup)
+import Models exposing (Coordinates, Meetup)
 import Msgs exposing (Msg)
 import RemoteData exposing (WebData)
 
@@ -46,8 +46,7 @@ list meetups =
                     [ th [] [ text "Id" ]
                     , th [] [ text "Name" ]
                     , th [] [ text "Description" ]
-
-                    -- , th [] [ text "Coordinates" ]
+                    , th [] [ text "Coordinates" ]
                     , th [] [ text "Location" ]
                     , th [] [ text "Time" ]
                     , th [] [ text "URL" ]
@@ -60,8 +59,8 @@ list meetups =
         ]
 
 
-getMaybe : Maybe String -> String
-getMaybe ma =
+getMaybeStr : Maybe String -> String
+getMaybeStr ma =
     case ma of
         Just a ->
             a
@@ -70,18 +69,27 @@ getMaybe ma =
             ""
 
 
+getMaybeCoord : Maybe Coordinates -> Coordinates
+getMaybeCoord ma =
+    case ma of
+        Just a ->
+            a
+
+        Nothing ->
+            Coordinates "" ""
+
+
 meetupRow : Meetup -> Html Msg
 meetupRow meetup =
     tr []
         [ td [] [ text meetup.id ]
         , td [] [ text meetup.name ]
         , td [] [ text meetup.description ]
-
-        -- , td [] [ text  meetup.coordinates ]
+        , td [] [ text ((getMaybeCoord meetup.coordinates).latitude ++ " " ++ (getMaybeCoord meetup.coordinates).latitude) ]
         , td [] [ text meetup.location ]
         , td [] [ text meetup.time ]
-        , td [] [ text (getMaybe meetup.url) ]
-        , td [] [ text (getMaybe meetup.twitter) ]
+        , td [] [ text (getMaybeStr meetup.url) ]
+        , td [] [ text (getMaybeStr meetup.twitter) ]
         , td []
             []
         ]

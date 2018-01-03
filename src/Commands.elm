@@ -2,7 +2,7 @@ module Commands exposing (..)
 
 import Http
 import Json.Decode as Decode
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (decode, optional, optionalAt, required)
 import Models exposing (Coordinates, Meetup, MeetupId)
 import Msgs exposing (Msg)
 import RemoteData
@@ -41,7 +41,7 @@ meetupDecoder =
         |> required "location" Decode.string
         |> required "name" Decode.string
         |> required "time" Decode.string
-        -- |> optional "coordinates" coordinatesDecoder
+        |> optional "coordinates" (Decode.map Just coordinatesDecoder) Nothing
         |> optional "nextMeetup" (Decode.map Just Decode.string) Nothing
         |> optional "twitter" (Decode.map Just Decode.string) Nothing
         |> optional "url" (Decode.map Just Decode.string) Nothing
