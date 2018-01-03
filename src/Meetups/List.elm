@@ -50,6 +50,7 @@ list meetups =
                     -- , th [] [ text "Coordinates" ]
                     , th [] [ text "Location" ]
                     , th [] [ text "Time" ]
+                    , th [] [ text "URL" ]
                     , th [] [ text "Twitter" ]
                     , th [] [ text "Action" ]
                     ]
@@ -59,18 +60,28 @@ list meetups =
         ]
 
 
+getMaybe : Maybe String -> String
+getMaybe ma =
+    case ma of
+        Just a ->
+            a
+
+        Nothing ->
+            ""
+
+
 meetupRow : Meetup -> Html Msg
 meetupRow meetup =
     tr []
         [ td [] [ text meetup.id ]
         , td [] [ text meetup.name ]
-        , td [] [ text (toString meetup.description) ]
+        , td [] [ text meetup.description ]
 
-        -- , td [] [ text (toString meetup.coordinates) ]
-        , td [] [ text (toString meetup.location) ]
-        , td [] [ text (toString meetup.time) ]
-
-        -- , td [] [ text (toString meetup.twitter) ]
+        -- , td [] [ text  meetup.coordinates ]
+        , td [] [ text meetup.location ]
+        , td [] [ text meetup.time ]
+        , td [] [ text (getMaybe meetup.url) ]
+        , td [] [ text (getMaybe meetup.twitter) ]
         , td []
             []
         ]

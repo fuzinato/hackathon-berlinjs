@@ -25,27 +25,23 @@ meetupsDecoder =
     Decode.at [ "data" ] (Decode.list meetupDecoder)
 
 
-
--- coordinatesDecoder : Decode.Decoder Coordinates
--- coordinatesDecoder =
---     decode Coordinates
---         |> required "latitude" Decode.string
---         |> required "longitude" Decode.string
+coordinatesDecoder : Decode.Decoder Coordinates
+coordinatesDecoder =
+    decode Coordinates
+        |> required "latitude" Decode.string
+        |> required "longitude" Decode.string
 
 
 meetupDecoder : Decode.Decoder Meetup
 meetupDecoder =
     decode Meetup
-        |> required "id" Decode.string
         |> required "day" Decode.string
         |> required "description" Decode.string
+        |> required "id" Decode.string
         |> required "location" Decode.string
         |> required "name" Decode.string
         |> required "time" Decode.string
-
-
-
--- |> optional "coordinates" coordinatesDecoder
--- |> optional "nextMeetup" Decode.string
--- |> optional "twitter" Decode.string
--- |> optional "url" Decode.string
+        -- |> optional "coordinates" coordinatesDecoder
+        |> optional "nextMeetup" (Decode.map Just Decode.string) Nothing
+        |> optional "twitter" (Decode.map Just Decode.string) Nothing
+        |> optional "url" (Decode.map Just Decode.string) Nothing

@@ -31,7 +31,7 @@ type alias Meetup =
     , time : String
 
     -- , coordinates : Maybe Coordinates
-    -- , nextMeetup : Maybe String
-    -- , twitter : Maybe String
-    -- , url : Maybe String
+    , nextMeetup : Maybe String
+    , twitter : Maybe String
+    , url : Maybe String
     }
