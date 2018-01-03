@@ -1,14 +1,16 @@
 module Models exposing (..)
 
+import RemoteData exposing (WebData)
+
 
 type alias Model =
-    { meetups : List Meetup
+    { meetups : WebData (List Meetup)
     }
 
 
 initialModel : Model
 initialModel =
-    { meetups = [ Meetup "day" "desc" "id" "location" "name" "time" Nothing Nothing Nothing Nothing ]
+    { meetups = RemoteData.Loading
     }
 
 
@@ -27,8 +29,9 @@ type alias Meetup =
     , location : String
     , name : String
     , time : String
-    , coordinates : Maybe Coordinates
-    , nextMeetup : Maybe String
-    , twitter : Maybe String
-    , url : Maybe String
+
+    -- , coordinates : Maybe Coordinates
+    -- , nextMeetup : Maybe String
+    -- , twitter : Maybe String
+    -- , url : Maybe String
     }

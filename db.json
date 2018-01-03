@@ -1,22 +1,13 @@
 {
   "data": [
     {
-      "name": "Neasdasdver",
-      "location": "Gonna",
-      "description": "Give",
-      "time": "You",
-      "day": "Up",
-      "twitter": "",
-      "id": "9365feabasdasd-5743-498d-a866-fdcd313500df"
-    },
-    {
       "name": "Berlin.js",
       "location": "co.up",
       "coordinates": {
         "latitude": "52.500330",
         "longitude": "13.419786"
       },
-      "description": "Berlin.js is a monthly meetup for everything around JavaScript",
+      "description": "Berlin.js is a montly meetup for everything around JavaScript",
       "time": "19:00",
       "day": "Every 3rd Thursday",
       "nextMeetup": "2017-12-03T11:43:27.627Z",
@@ -81,8 +72,8 @@
       "name": "Never",
       "location": "Gonna",
       "description": "Give",
-      "time": "You",
-      "day": "Up",
+      "time": "Up",
+      "day": "You",
       "twitter": "",
       "id": "9365feab-5743-498d-a866-fdcd313500df"
     }

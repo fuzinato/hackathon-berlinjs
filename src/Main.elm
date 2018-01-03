@@ -1,5 +1,6 @@
 module Main exposing (..)
 
+import Commands exposing (fetchMeetups)
 import Html exposing (program)
 import Models exposing (Model, initialModel)
 import Msgs exposing (Msg)
@@ -9,7 +10,7 @@ import View exposing (view)
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, Cmd.none )
+    ( initialModel, fetchMeetups )
 
 
 subscriptions : Model -> Sub Msg
