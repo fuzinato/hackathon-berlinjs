@@ -1,10 +1,90 @@
 {
-  "players": [
-    { "id": "1", "name": "Sally", "level": 2 },
-    { "id": "2", "name": "Lance", "level": 1 },
-    { "id": "3", "name": "Aki", "level": 3 },
-    { "id": "4", "name": "Maria", "level": 4 },
-    { "id": "5", "name": "Julian", "level": 1 },
-    { "id": "6", "name": "Jaime", "level": 1 }
+  "data": [
+    {
+      "name": "Neasdasdver",
+      "location": "Gonna",
+      "description": "Give",
+      "time": "You",
+      "day": "Up",
+      "twitter": "",
+      "id": "9365feabasdasd-5743-498d-a866-fdcd313500df"
+    },
+    {
+      "name": "Berlin.js",
+      "location": "co.up",
+      "coordinates": {
+        "latitude": "52.500330",
+        "longitude": "13.419786"
+      },
+      "description": "Berlin.js is a monthly meetup for everything around JavaScript",
+      "time": "19:00",
+      "day": "Every 3rd Thursday",
+      "nextMeetup": "2017-12-03T11:43:27.627Z",
+      "twitter": "berlinjs",
+      "url": "https://www.meetup.com/Berlin-JS/",
+      "id": "22211218-5464-45d5-9f4b-301c180bb118"
+    },
+    {
+      "name": "Angular Berlin",
+      "location": "bitcrowd GmbH",
+      "coordinates": {
+        "latitude": "52.499892",
+        "longitude": "13.425056"
+      },
+      "description": "A monthly meetup around AngularJS & Angular",
+      "time": "19:00",
+      "day": "Every 2nd Wednesday",
+      "nextMeetup": "2017-12-03T11:43:27.627Z",
+      "twitter": "angular_berlin",
+      "url": "https://www.meetup.com/AngularJS-Meetup-Berlin/",
+      "id": "1f78c21d-9cdd-4334-895d-db8570916448"
+    },
+    {
+      "name": "Ionic Berlin",
+      "location": "JustWatch GmbH",
+      "coordinates": {
+        "latitude": "52.512911",
+        "longitude": "13.455111"
+      },
+      "description": "A quarterly meetup around Ionic & Stencil",
+      "time": "19:00",
+      "day": "Irregularly Thursdays",
+      "nextMeetup": "2017-12-03T11:43:27.627Z",
+      "twitter": "IonicBerlin",
+      "url": "https://www.meetup.com/Ionic-Berlin/",
+      "id": "e0f086e6-4955-4a3f-9293-223cd4a31ffe"
+    },
+    {
+      "name": "Ember Berlin",
+      "location": "kloeckner.i",
+      "coordinates": {
+        "latitude": "52.531530",
+        "longitude": "13.383500"
+      },
+      "description": "A monthly meetup around Ember & Glimmer",
+      "time": "19:00",
+      "day": "First Tuesday",
+      "nextMeetup": "2017-12-03T11:43:27.627Z",
+      "twitter": "emberliners",
+      "url": "https://www.meetup.com/Ember-js-Berlin/",
+      "id": "15bb216b-5b83-4749-bb4c-e02184f6e03c"
+    },
+    {
+      "name": "onesieJs",
+      "location": "wonderland",
+      "description": "fluffiness",
+      "time": "18:00",
+      "day": "tomorrow",
+      "id": "3c126607-4bcd-4c9f-8900-37978e981455"
+    },
+    {
+      "name": "Never",
+      "location": "Gonna",
+      "description": "Give",
+      "time": "You",
+      "day": "Up",
+      "twitter": "",
+      "id": "9365feab-5743-498d-a866-fdcd313500df"
+    }
   ]
 }
