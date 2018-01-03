@@ -69,21 +69,21 @@ toStr v =
         str
 
 
-getMaybe : Maybe a -> String
+getMaybe : Maybe String -> String
 getMaybe ma =
     case ma of
         Just a ->
-            toStr a
+            a
 
         Nothing ->
             ""
 
 
-parseCoords : Maybe { c | latitude : a, longitude : b } -> Coordinates
+parseCoords : Maybe Coordinates -> Coordinates
 parseCoords ma =
     case ma of
         Just a ->
-            Coordinates (toStr a.latitude) (toStr a.longitude)
+            a
 
         Nothing ->
             Coordinates "" ""
