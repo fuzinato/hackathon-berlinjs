@@ -81,11 +81,15 @@ getMaybeCoord ma =
 
 meetupRow : Meetup -> Html Msg
 meetupRow meetup =
+    let
+        coords =
+            getMaybeCoord meetup.coordinates
+    in
     tr []
         [ td [] [ text meetup.id ]
         , td [] [ text meetup.name ]
         , td [] [ text meetup.description ]
-        , td [] [ text ((getMaybeCoord meetup.coordinates).latitude ++ " " ++ (getMaybeCoord meetup.coordinates).latitude) ]
+        , td [] [ text (coords.latitude ++ " " ++ coords.latitude) ]
         , td [] [ text meetup.location ]
         , td [] [ text meetup.time ]
         , td [] [ text (getMaybeStr meetup.url) ]
