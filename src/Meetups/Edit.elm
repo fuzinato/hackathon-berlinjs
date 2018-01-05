@@ -2,7 +2,8 @@ module Meetups.Edit exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (class, href, value)
-import Models exposing (Meetup)
+import Meetups.List exposing (meetupRow)
+import Models exposing (Coordinates, Meetup)
 import Msgs exposing (Msg)
 import Routing exposing (meetupsPath)
 
@@ -29,30 +30,21 @@ form meetup =
         ]
 
 
+getMaybeCoord : Maybe Coordinates -> Coordinates
+getMaybeCoord ma =
+    case ma of
+        Just a ->
+            a
+
+        Nothing ->
+            Coordinates "" ""
+
+
 formLevel : Meetup -> Html Msg
 formLevel meetup =
-    div
-        [ class "clearfix py1"
+    div []
+        [ meetupRow meetup
         ]
-        [ div [ class "col col-5" ] [ text "Level" ]
-        , div [ class "col col-7" ]
-            [ span [ class "h2 bold" ] [ text (toString meetup.name) ]
-            , btnLevelDecrease meetup
-            , btnLevelIncrease meetup
-            ]
-        ]
-
-
-btnLevelDecrease : Meetup -> Html Msg
-btnLevelDecrease meetup =
-    a [ class "btn ml1 h1" ]
-        [ i [ class "fa fa-minus-circle" ] [] ]
-
-
-btnLevelIncrease : Meetup -> Html Msg
-btnLevelIncrease meetup =
-    a [ class "btn ml1 h1" ]
-        [ i [ class "fa fa-plus-circle" ] [] ]
 
 
 listBtn : Html Msg
