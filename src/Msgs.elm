@@ -1,10 +1,9 @@
 module Msgs exposing (..)
 
-import Models exposing (Meetup)
-import Navigation exposing (Location)
+import Meetup.Single exposing (Meetup)
 import RemoteData exposing (WebData)
 
 
 type Msg
     = OnFetchMeetups (WebData (List Meetup))
-    | OnLocationChange Location
+    | OnFetchMeetup String

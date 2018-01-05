@@ -1,0 +1,10 @@
+.b-meetup {
+  max-width: 200px;
+  display: inline-block;
+  margin: 10px;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #987;
+  background-color: rgb(214, 233, 243);
+  color: #121
+}

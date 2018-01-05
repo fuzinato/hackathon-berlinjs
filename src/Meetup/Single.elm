@@ -1,28 +1,34 @@
-module Commands exposing (..)
+module Meetup.Single exposing (..)
 
-import Http
-import Json.Decode as Decode
+import Json.Decode as Decode exposing (..)
 import Json.Decode.Pipeline exposing (decode, optional, optionalAt, required)
-import Models exposing (Coordinates, Meetup, MeetupId)
-import Msgs exposing (Msg)
-import RemoteData
 
 
-fetchMeetups : Cmd Msg
-fetchMeetups =
-    Http.get fetchMeetupsUrl meetupsDecoder
-        |> RemoteData.sendRequest
-        |> Cmd.map Msgs.OnFetchMeetups
+-- MODELS
 
 
-fetchMeetupsUrl : String
-fetchMeetupsUrl =
-    "http://localhost:4000/db"
+type alias Coordinates =
+    { latitude : String
+    , longitude : String
+    }
 
 
-meetupsDecoder : Decode.Decoder (List Meetup)
-meetupsDecoder =
-    Decode.at [ "data" ] (Decode.list meetupDecoder)
+type alias Meetup =
+    { day : String
+    , description : String
+    , id : String
+    , location : String
+    , name : String
+    , time : String
+    , coordinates : Maybe Coordinates
+    , nextMeetup : Maybe String
+    , twitter : Maybe String
+    , url : Maybe String
+    }
+
+
+
+-- DECODERS
 
 
 coordinatesDecoder : Decode.Decoder Coordinates

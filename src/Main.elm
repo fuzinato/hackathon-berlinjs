@@ -1,21 +1,43 @@
-module Main exposing (..)
+module Main exposing (Model, init, subscriptions, update, view)
 
-import Commands exposing (fetchMeetups)
-import Models exposing (Model, initialModel)
+import Html exposing (..)
+import Meetup.List exposing (fetchMeetups)
+import Meetup.Single exposing (Meetup)
 import Msgs exposing (Msg)
-import Navigation exposing (Location)
-import Routing
-import Update exposing (update)
-import View exposing (view)
+import RemoteData exposing (WebData)
+import View exposing (maybeList)
 
 
-init : Location -> ( Model, Cmd Msg )
-init location =
-    let
-        currentRoute =
-            Routing.parseLocation location
-    in
-    ( initialModel currentRoute, fetchMeetups )
+main : Program Never Model Msg
+main =
+    Html.program
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        }
+
+
+type alias Model =
+    { meetups : WebData (List Meetup)
+    }
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Msgs.OnFetchMeetups meetups ->
+            ( { model | meetups = meetups }, Cmd.none )
+
+        Msgs.OnFetchMeetup id ->
+            ( model, Cmd.none )
+
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ maybeList model.meetups
+        ]
 
 
 subscriptions : Model -> Sub Msg
@@ -24,14 +46,9 @@ subscriptions model =
 
 
 
--- MAIN
+-- INIT
 
 
-main : Program Never Model Msg
-main =
-    Navigation.program Msgs.OnLocationChange
-        { init = init
-        , view = view
-        , update = update
-        , subscriptions = subscriptions
-        }
+init : ( Model, Cmd Msg )
+init =
+    ( Model RemoteData.Loading, fetchMeetups )
