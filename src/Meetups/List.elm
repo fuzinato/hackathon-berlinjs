@@ -1,10 +1,11 @@
 module Meetups.List exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, href)
 import Models exposing (Coordinates, Meetup)
 import Msgs exposing (Msg)
 import RemoteData exposing (WebData)
+import Routing exposing (meetupPath)
 
 
 view : WebData (List Meetup) -> Html Msg
@@ -95,5 +96,18 @@ meetupRow meetup =
         , td [] [ text (getMaybeStr meetup.url) ]
         , td [] [ text (getMaybeStr meetup.twitter) ]
         , td []
-            []
+            [ editBtn meetup ]
         ]
+
+
+editBtn : Meetup -> Html.Html Msg
+editBtn meetup =
+    let
+        path =
+            meetupPath meetup.id
+    in
+    a
+        [ class "btn regular"
+        , href path
+        ]
+        [ i [ class "fa fa-pencil mr1" ] [], text "Edit" ]

@@ -5,12 +5,14 @@ import RemoteData exposing (WebData)
 
 type alias Model =
     { meetups : WebData (List Meetup)
+    , route : Route
     }
 
 
-initialModel : Model
-initialModel =
+initialModel : Route -> Model
+initialModel route =
     { meetups = RemoteData.Loading
+    , route = route
     }
 
 
@@ -34,3 +36,9 @@ type alias Meetup =
     , twitter : Maybe String
     , url : Maybe String
     }
+
+
+type Route
+    = MeetupsRoute
+    | MeetupRoute MeetupId
+    | NotFoundRoute
