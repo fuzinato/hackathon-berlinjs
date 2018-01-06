@@ -1,7 +1,7 @@
 module Main exposing (Model, init, subscriptions, update, view)
 
+import Commands exposing (fetchMeetups)
 import Html exposing (..)
-import Meetup.List exposing (fetchMeetups)
 import Meetup.Single exposing (Meetup)
 import Msgs exposing (Msg)
 import RemoteData exposing (WebData)
@@ -20,6 +20,7 @@ main =
 
 type alias Model =
     { meetups : WebData (List Meetup)
+    , single : WebData Meetup
     }
 
 
@@ -29,8 +30,15 @@ update msg model =
         Msgs.OnFetchMeetups meetups ->
             ( { model | meetups = meetups }, Cmd.none )
 
-        Msgs.OnFetchMeetup id ->
+        Msgs.OnRequestMeetup id ->
+            let
+                _ =
+                    Debug.log "foo is" id
+            in
             ( model, Cmd.none )
+
+        Msgs.OnFetchMeetup meetup ->
+            ( { model | single = meetup }, Cmd.none )
 
 
 view : Model -> Html Msg
@@ -51,4 +59,4 @@ subscriptions model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model RemoteData.Loading, fetchMeetups )
+    ( Model RemoteData.Loading RemoteData.Loading, fetchMeetups )

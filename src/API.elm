@@ -3,7 +3,7 @@ module API exposing (..)
 
 api : String
 api =
-    "http://berlin-meetup.glitch.me"
+    "http://localhost:8080"
 
 
 meetupsUrl : String
@@ -11,9 +11,9 @@ meetupsUrl =
     api ++ "/meetup"
 
 
-meetupUrl : Int -> String
+meetupUrl : String -> String
 meetupUrl id =
-    api ++ "/meetup/" ++ toString id
+    api ++ "/meetup/" ++ id
 
 
 userRegisterUrl : String

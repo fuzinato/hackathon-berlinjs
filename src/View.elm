@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import Helpers exposing (..)
-import Html exposing (Html, div, span, text)
+import Html exposing (Html, button, div, span, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Meetup.Single exposing (Coordinates, Meetup)
@@ -28,7 +28,7 @@ maybeList response =
 listView : List Meetup -> Html Msg
 listView meetups =
     div [ class "b-meetup-list" ]
-        [ div [] (List.map meetupView meetups) ]
+        [ div [] (List.map singleView meetups) ]
 
 
 meetupView : Meetup -> Html Msg
@@ -37,7 +37,7 @@ meetupView meetup =
         coords =
             getMaybeCoord meetup.coordinates
     in
-    div [ class "b-meetup", onClick (Msgs.OnFetchMeetup meetup.id) ]
+    div []
         [ div [] [ text meetup.name ]
         , div [] [ text meetup.location ]
         , div [] [ text coords.latitude ]
@@ -45,4 +45,14 @@ meetupView meetup =
         , div [] [ text meetup.description ]
         , div [] [ text meetup.time ]
         , div [] [ text (getMaybeStr meetup.twitter) ]
+        ]
+
+
+singleView : Meetup -> Html Msg
+singleView meetup =
+    div [ class "b-meetup m-single" ]
+        [ meetupView meetup
+        , button [ onClick (Msgs.OnRequestMeetup meetup.id) ]
+            [ text "Edit"
+            ]
         ]

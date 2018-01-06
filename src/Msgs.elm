@@ -6,4 +6,5 @@ import RemoteData exposing (WebData)
 
 type Msg
     = OnFetchMeetups (WebData (List Meetup))
-    | OnFetchMeetup String
+    | OnFetchMeetup (WebData Meetup)
+    | OnRequestMeetup String
