@@ -1,27 +1,23 @@
-module Main exposing (Model, init, subscriptions, update, view)
+module Main exposing (init, subscriptions, update)
 
-import Commands exposing (fetchMeetups)
-import Html exposing (..)
-import Meetup.Single exposing (Meetup)
+import API
+import Commands exposing (fetchMeetup, fetchMeetups)
+import Models exposing (Model, Route)
 import Msgs exposing (Msg)
+import Navigation exposing (Location)
 import RemoteData exposing (WebData)
-import View exposing (maybeList)
+import Routing exposing (parseLocation)
+import View exposing (maybeList, view)
 
 
 main : Program Never Model Msg
 main =
-    Html.program
+    Navigation.program Msgs.OnLocationChange
         { init = init
         , view = view
         , update = update
         , subscriptions = subscriptions
         }
-
-
-type alias Model =
-    { meetups : WebData (List Meetup)
-    , single : WebData Meetup
-    }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -31,21 +27,17 @@ update msg model =
             ( { model | meetups = meetups }, Cmd.none )
 
         Msgs.OnRequestMeetup id ->
-            let
-                _ =
-                    Debug.log "foo is" id
-            in
-            ( model, Cmd.none )
+            ( model, fetchMeetup id )
 
         Msgs.OnFetchMeetup meetup ->
-            ( { model | single = meetup }, Cmd.none )
+            ( { model | single = meetup }, Navigation.newUrl "#meetup/7f7bedb5-f994-4a3a-935d-1e62d5007669" )
 
-
-view : Model -> Html Msg
-view model =
-    div []
-        [ maybeList model.meetups
-        ]
+        Msgs.OnLocationChange location ->
+            let
+                route =
+                    Routing.parseLocation location
+            in
+            ( { model | route = route }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
@@ -53,10 +45,10 @@ subscriptions model =
     Sub.none
 
 
-
--- INIT
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( Model RemoteData.Loading RemoteData.Loading, fetchMeetups )
+init : Location -> ( Model, Cmd Msg )
+init location =
+    let
+        currentRoute =
+            Routing.parseLocation location
+    in
+    ( Model RemoteData.Loading RemoteData.Loading currentRoute, fetchMeetups )

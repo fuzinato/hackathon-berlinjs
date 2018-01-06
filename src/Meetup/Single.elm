@@ -7,6 +7,10 @@ import Json.Decode.Pipeline exposing (decode, optional, optionalAt, required)
 -- MODELS
 
 
+type alias MeetupId =
+    String
+
+
 type alias Coordinates =
     { latitude : String
     , longitude : String
@@ -16,7 +20,7 @@ type alias Coordinates =
 type alias Meetup =
     { day : String
     , description : String
-    , id : String
+    , id : MeetupId
     , location : String
     , name : String
     , time : String
@@ -51,3 +55,8 @@ meetupDecoder =
         |> optional "nextMeetup" (Decode.map Just Decode.string) Nothing
         |> optional "twitter" (Decode.map Just Decode.string) Nothing
         |> optional "url" (Decode.map Just Decode.string) Nothing
+
+
+singleDecoder : Decode.Decoder Meetup
+singleDecoder =
+    Decode.at [ "data" ] meetupDecoder

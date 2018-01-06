@@ -3,7 +3,7 @@ module Commands exposing (..)
 import API
 import Http
 import Meetup.List exposing (meetupsDecoder)
-import Meetup.Single exposing (meetupDecoder)
+import Meetup.Single exposing (singleDecoder)
 import Msgs exposing (Msg)
 import RemoteData
 
@@ -17,6 +17,6 @@ fetchMeetups =
 
 fetchMeetup : String -> Cmd Msg
 fetchMeetup id =
-    Http.get (API.meetupUrl id) meetupDecoder
+    Http.get (API.meetupUrl id) singleDecoder
         |> RemoteData.sendRequest
         |> Cmd.map Msgs.OnFetchMeetup
