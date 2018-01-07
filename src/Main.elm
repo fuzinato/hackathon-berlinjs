@@ -1,13 +1,11 @@
-module Main exposing (init, subscriptions, update)
+module Main exposing (init, subscriptions)
 
-import API
-import Commands exposing (fetchMeetup, fetchMeetups)
 import Models exposing (Model, Route)
 import Msgs exposing (Msg)
 import Navigation exposing (Location)
 import RemoteData exposing (WebData)
-import Routing exposing (parseLocation)
-import View exposing (maybeList, view)
+import Update exposing (..)
+import View exposing (maybeList, maybeSingle, view)
 
 
 main : Program Never Model Msg
@@ -20,26 +18,6 @@ main =
         }
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        Msgs.OnFetchMeetups meetups ->
-            ( { model | meetups = meetups }, Cmd.none )
-
-        Msgs.OnRequestMeetup id ->
-            ( model, fetchMeetup id )
-
-        Msgs.OnFetchMeetup meetup ->
-            ( { model | single = meetup }, Navigation.newUrl "#meetup/7f7bedb5-f994-4a3a-935d-1e62d5007669" )
-
-        Msgs.OnLocationChange location ->
-            let
-                route =
-                    Routing.parseLocation location
-            in
-            ( { model | route = route }, Cmd.none )
-
-
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
@@ -48,7 +26,7 @@ subscriptions model =
 init : Location -> ( Model, Cmd Msg )
 init location =
     let
-        currentRoute =
-            Routing.parseLocation location
+        _ =
+            Debug.log "i" location
     in
-    ( Model RemoteData.Loading RemoteData.Loading currentRoute, fetchMeetups )
+    navigateToLocation location (Model RemoteData.Loading RemoteData.Loading Models.NotFoundRoute)

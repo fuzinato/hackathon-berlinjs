@@ -3,8 +3,9 @@ module View exposing (..)
 import Helpers exposing (..)
 import Html exposing (Html, button, div, span, text)
 import Html.Attributes exposing (class)
-import Html.Events exposing (onClick)
-import Meetup.Single exposing (Coordinates, Meetup, MeetupId)
+import Html.Events exposing (onClick, onSubmit)
+import Meetup.Add exposing (addMeetupForm)
+import Meetup exposing (Coordinates, Meetup, MeetupId)
 import Models exposing (Model, Route)
 import Msgs exposing (Msg)
 import RemoteData exposing (WebData)
@@ -45,7 +46,9 @@ maybeSingle response =
 listView : List Meetup -> Html Msg
 listView meetups =
     div [ class "b-meetup-list" ]
-        [ div [] (List.map singleView meetups) ]
+        [ div [] (List.map singleView meetups)
+        , button [ onClick Msgs.ShowAddMeetupView ] [ text "Add Meetup" ]
+        ]
 
 
 meetupView : Meetup -> Html Msg
@@ -96,6 +99,9 @@ page model =
 
         Models.MeetupRoute id ->
             maybeSingle model.single
+
+        Models.AddMeetupRoute ->
+            addMeetupForm
 
         Models.NotFoundRoute ->
             notFoundView

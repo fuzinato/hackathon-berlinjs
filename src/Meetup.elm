@@ -1,4 +1,4 @@
-module Meetup.Single exposing (..)
+module Meetup exposing (..)
 
 import Json.Decode as Decode exposing (..)
 import Json.Decode.Pipeline exposing (decode, optional, optionalAt, required)
@@ -31,6 +31,11 @@ type alias Meetup =
     }
 
 
+type alias Meetups =
+    { meetups : List Meetup
+    }
+
+
 
 -- DECODERS
 
@@ -57,6 +62,11 @@ meetupDecoder =
         |> optional "url" (Decode.map Just Decode.string) Nothing
 
 
-singleDecoder : Decode.Decoder Meetup
-singleDecoder =
+meetupListDecoder : Decode.Decoder (List Meetup)
+meetupListDecoder =
+    Decode.at [ "data" ] (Decode.list meetupDecoder)
+
+
+meetupSingleDecoder : Decode.Decoder Meetup
+meetupSingleDecoder =
     Decode.at [ "data" ] meetupDecoder

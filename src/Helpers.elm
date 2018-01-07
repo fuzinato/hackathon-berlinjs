@@ -1,6 +1,6 @@
 module Helpers exposing (..)
 
-import Meetup.Single exposing (Coordinates)
+import Meetup exposing (Coordinates)
 
 
 getMaybeStr : Maybe String -> String

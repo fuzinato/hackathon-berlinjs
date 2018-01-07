@@ -1,6 +1,6 @@
 module Models exposing (..)
 
-import Meetup.Single exposing (Meetup, MeetupId)
+import Meetup exposing (Meetup, MeetupId)
 import RemoteData exposing (WebData)
 
 
@@ -15,3 +15,4 @@ type Route
     = MeetupsRoute
     | MeetupRoute MeetupId
     | NotFoundRoute
+    | AddMeetupRoute

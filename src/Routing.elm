@@ -11,12 +11,14 @@ matchers =
         [ map MeetupsRoute top
         , map MeetupRoute (s "meetup" </> string)
         , map MeetupsRoute (s "meetups")
+        , map AddMeetupRoute (s "add")
+        , map NotFoundRoute top
         ]
 
 
 parseLocation : Location -> Route
 parseLocation location =
-    case parseHash matchers location of
+    case parsePath matchers location of
         Just route ->
             route
 
