@@ -13,6 +13,11 @@ getMaybeStr ma =
             ""
 
 
+
+-- getMaybeStr x =
+--     Maybe.withDefault "" x
+
+
 getMaybeCoord : Maybe Coordinates -> Coordinates
 getMaybeCoord ma =
     case ma of

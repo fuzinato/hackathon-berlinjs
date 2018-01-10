@@ -1,6 +1,7 @@
 module Update exposing (..)
 
 import Commands exposing (fetchMeetup, fetchMeetups)
+import Meetup.Add
 import Models exposing (Model, Route)
 import Msgs exposing (..)
 import Navigation exposing (Location)
@@ -25,6 +26,10 @@ update msg model =
         ShowAddMeetupView ->
             ( model, Navigation.newUrl "add" )
 
+        OnUpdateAddForm childMsg ->
+            ( { model | addMeetup = Meetup.Add.update childMsg model.addMeetup }, Cmd.none )
+
+        --  { model | firstParser = ParserComponent.update m model.firstParser}
         OnAddMeetup ->
             ( model, Cmd.none )
 

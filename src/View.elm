@@ -4,8 +4,8 @@ import Helpers exposing (..)
 import Html exposing (Html, button, div, span, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick, onSubmit)
-import Meetup.Add exposing (addMeetupForm)
 import Meetup exposing (Coordinates, Meetup, MeetupId)
+import Meetup.Add
 import Models exposing (Model, Route)
 import Msgs exposing (Msg)
 import RemoteData exposing (WebData)
@@ -101,7 +101,7 @@ page model =
             maybeSingle model.single
 
         Models.AddMeetupRoute ->
-            addMeetupForm
+            Html.map Msgs.OnUpdateAddForm (Meetup.Add.view model.addMeetup)
 
         Models.NotFoundRoute ->
             notFoundView

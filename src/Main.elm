@@ -3,7 +3,6 @@ module Main exposing (init, subscriptions)
 import Models exposing (Model, Route)
 import Msgs exposing (Msg)
 import Navigation exposing (Location)
-import RemoteData exposing (WebData)
 import Update exposing (..)
 import View exposing (maybeList, maybeSingle, view)
 
@@ -23,10 +22,14 @@ subscriptions model =
     Sub.none
 
 
+
+--Model
+
+
 init : Location -> ( Model, Cmd Msg )
 init location =
     let
         _ =
             Debug.log "i" location
     in
-    navigateToLocation location (Model RemoteData.Loading RemoteData.Loading Models.NotFoundRoute)
+    navigateToLocation location Models.initialModel

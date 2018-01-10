@@ -1,6 +1,7 @@
 module Msgs exposing (..)
 
 import Meetup exposing (Meetup)
+import Meetup.Add
 import Navigation exposing (Location)
 import RemoteData exposing (WebData)
 
@@ -12,3 +13,4 @@ type Msg
     | OnLocationChange Location
     | OnAddMeetup
     | ShowAddMeetupView
+    | OnUpdateAddForm Meetup.Add.Msg
